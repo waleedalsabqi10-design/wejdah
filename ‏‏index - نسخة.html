@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>وجدة - رحلتك الذكية في بهلاء والحمراء</title>
+    <style>
+        :root {
+            --لون-الأساس: #0f172a;
+            --لون-مميز: #0284c7;
+            --لون-الخلفية: #f8fafc;
+            --لون-البطاقة: #ffffff;
+            --لون-النص: #334155;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: var(--لون-الخلفية); color: var(--لون-النص); }
+        header { background: linear-gradient(135deg, #0f172a, #1e293b); color: white; padding: 25px 20px; text-align: center; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        header h1 { margin: 0; font-size: 28px; letter-spacing: 1px; }
+        header p { margin: 8px 0 0; color: #94a3b8; font-size: 15px; }
+        
+        .الحاوية { max-width: 900px; margin: 30px auto; padding: 0 20px; }
+        
+        .منتقي-الحالة { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; flex-wrap: wrap; }
+        .زر-الحالة { padding: 12px 24px; border: none; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: white; color: #475569; border: 2px solid #e2e8f0; }
+        .زر-الحالة.نشط { background: var(--لون-مميز); color: white; border-color: var(--لون-مميز); transform: translateY(-2px); box-shadow: 0 6px 12px rgba(2,132,199,0.2); }
+        
+        .بطاقة-الخطة { background: var(--لون-البطاقة); border-radius: 16px; padding: 30px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.05); margin-bottom: 30px; }
+        
+        .عنوان-البطاقة { font-size: 22px; font-weight: bold; color: var(--لون-الأساس); margin-bottom: 8px; }
+        .وصف-البطاقة { color: #64748b; margin-bottom: 25px; font-size: 15px; line-height: 1.6; }
+        
+        .الخط الزمني { position: relative; border-right: 3px solid #e2e8f0; padding-right: 25px; margin-right: 10px; }
+        .عنصر-الخط { position: relative; margin-bottom: 30px; }
+        .عنصر-الخط:last-child { margin-bottom: 0; }
+        .عنصر-الخط::before { content: ''; position: absolute; right: -31px; top: 5px; width: 14px; height: 14px; border-radius: 50%; background: var(--لون-مميز); border: 3px solid white; box-shadow: 0 0 0 2px var(--لون-مميز); }
+        
+        .شارة-الوقت { display: inline-block; background: #f1f5f9; color: #0284c7; padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-bottom: 6px; }
+        .اسم-المكان { font-size: 18px; font-weight: bold; color: var(--لون-الأساس); margin: 0 0 5px 0; }
+        .تفاصيل-المكان { font-size: 14px; color: #64748b; margin-bottom: 10px; }
+        
+        .زر-الخريطة { display: inline-flex; align-items: center; gap: 6px; background: #2563eb; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 13px; font-weight: bold; transition: background 0.2s; }
+        .زر-الخريطة:hover { background: #1d4ed8; }
+        
+        .حاوية-الإطار { margin-top: 20px; border-radius: 12px; overflow: hidden; border: 1px solid #e2e8f0; height: 350px; }
+        iframe { width: 100%; height: 100%; border: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>وجدة (VibeTrace)</h1>
+        <p>النظام الذكي للتوجيه السياحي الوجداني - بهلاء والحمراء</p>
+    </header>
+
+    <div class="الحاوية">
+        <!-- أزرار اختيار الحالة المزاجية -->
+        <div class="منتقي-الحالة">
+            <button class="زر-الحالة نشط" onclick="تغييرالحالة('نشط')">⚡ طاقة عالية وحماس (بهلاء التاريخية)</button>
+            <button class="زر-الحالة" onclick="تغييرالحالة('مرهق')">⚠️ إرهاق خفيف (حارات الحمراء التراثية)</button>
+            <button class="زر-الحالة" onclick="تغييرالحالة('هادئ')">🧘 هدوء وتأمل (قمم جبل شمس)</button>
+        </div>
+
+        <!-- محتوى الخطة اليومية -->
+        <div class="بطاقة-الخطة" id="محتوىالخطة">
+            <!-- سيتم تعبئته تلقائياً -->
+        </div>
+    </div>
+
+    <script>
+        const الباقات = {
+            نشط: {
+                عنوان: "⚡ باقة النشاط والحماس التاريخي في بهلاء",
+                وصف: "يوم كامل مليء بالاستكشاف والفعاليات التراثية في قلب ولاية بهلاء العريقة، مصمم خصيصاً لمستويات الطاقة العالية.",
+                استعلامالخريطة: "Bahla Fort, Oman",
+                الجدول: [
+                    { وقت: "٠٩:٠٠ صباحاً", اسم: "قلعة بهلاء المدرجة في اليونسكو", تفاصيل: "ابدأ صباحك بجولة استكشافية حماسية بين أروقة القلعة التاريخية العظيمة.", بحث: "Bahla+Fort" },
+                    { وقت: "٠١:٠٠ ظهراً", اسم: "سوق بهلاء التقليدي والفخاريات", تفاصيل: "استمتع بتجربة تسوق حية وتعرف على صناعة الفخار العماني العريق وتناول الغداء.", بحث: "Bahla+Souq" },
+                    { وقت: "٠٤:٠٠ عصراً", name: "حصن الجبرين التاريخي", اسم_بديل: "حصن الجبرين (جولة إضافية قريبة)", تفاصيل: "اختم يومك بزيارة صرح معماري فريد يعكس روعة الفن الإسلامي العماني.", بحث: "Jabreen+Castle" }
+                ]
+            },
+            مرهق: {
+                عنوان: "⚠️ باقة الاسترخاء الخفيف والهروب التراثي في الحمراء",
+                وصف: "خطة هادئة ومريحة تم تصميمها لتخفيف الإجهاد، وتعتمد على المسارات المظللة والجلسات التراثية الدافئة.",
+                استعلامالخريطة: "Al Hamra Heritage Village, Oman",
+                الجدول: [
+                    { وقت: "١٠:٠٠ صباحاً", اسم: "حارة الحمراء القديمة (البيوت الطينية)", تفاصيل: "مشي خفيف بين الأزقة التاريخية الظليلة واستنشاق عبق الماضي الهادئ.", بحث: "Al+Hamra+Heritage+Village" },
+                    { وقت: "٠١:٣٠ ظهراً", اسم: "مقهى ومطعم بيتي تراثي في الحمراء", تفاصيل: "استراحة غداء هادئة في ضيافة منزل طيني مطور يقدم مأكولات محلية أصيلة.", بحث: "Al+Hamra+Oman" },
+                    { وقت: "٠٤:٣٠ عصراً", اسم: "واحة مصفاة العبريين الزراعية", تفاصيل: "جلسة تأمل استرخائية بين مزارع الفلج والترتيب المدرج الهادئ.", بحث: "Misfat+al+Abriyeen" }
+                ]
+            },
+            هادئ: {
+                عنوان: "🧘 باقة الهدوء المطلق والتأمل في أعالي جبل شمس",
+                وصف: "رحلة الهروب نحو السحاب، مصممة لمن يبحث عن الصفاء الذهني التام والهواء العليل في قمم الحمراء.",
+                استعلامالخريطة: "Jebel Shams, Oman",
+                الجدول: [
+                    { وقت: "٠٩:٣٠ صباحاً", اسم: "مطل حافة العالم في جبل شمس", تفاصيل: "استمتع بمشاهدة أعمق الأخدود الصخري بتهوية عليلة وهدوء مطلق يصفّي الذهن.", بحث: "Jebel+Shams" },
+                    { وقت: "٠١:٠٠ ظهراً", اسم: "استراحة جبل شمس الجبلية", تفاصيل: "تناول وجبة خفيفة مع إطلالة بانورامية ساحرة على سحب الجبل.", بحث: "Jebel+Shams+Resort" },
+                    { وقت: "٠٤:٠٠ عصراً", اسم: "مسار المشي الهادئ (الشرفة الجبلية)", تفاصيل: "مشية خفيفة على حافة الجرف وسط صمت الطبيعة الخلابة.", بحث: "Balcony+Walk+Jebel+Shams" }
+                ]
+            }
+        };
+
+        function تغييرالحالة(نوع) {
+            document.querySelectorAll('.زر-الحالة').forEach(زر => زر.classList.remove('نشط'));
+            event.target.classList.add('نشط');
+
+            const بيانات = الباقات[نوع];
+            let نصHTML = `
+                <div class="عنوان-البطاقة">${بيانات.عنوان}</div>
+                <div class="وصف-البطاقة">${بيانات.وصف}</div>
+                <div class="الخط الزمني">
+            `;
+
+            بيانات.الجدول.forEach(عنصر => {
+                نصHTML += `
+                    <div class="عنصر-الخط">
+                        <span class="شارة-الوقت">${عنصر.وقت}</span>
+                        <h3 class="اسم-المكان">${عنصر.اسم}</h3>
+                        <div class="تفاصيل-المكان">${عنصر.تفاصيل}</div>
+                        <a href="https://www.google.com/maps/search/?api=1&query=${عنصر.بحث}" target="_blank" class="زر-الخريطة">
+                            📍 فتح الموقع في خرائط جوجل
+                        </a>
+                    </div>
+                `;
+            });
+
+            نصHTML += `</div>
+                <div class="حاوية-الإطار">
+                    <iframe src="https://maps.google.com/maps?q=${بيانات.استعلامالخريطة}&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
+                </div>
+            `;
+
+            document.getElementById('محتوىالخطة').innerHTML = نصHTML;
+        }
+
+        // التشغيل الافتراضي
+        تغييرالحالة('نشط');
+    </script>
+</body>
+</html>
